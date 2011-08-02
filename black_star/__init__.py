@@ -5,7 +5,7 @@ VERSION = '1.0-dev'
 
 # all the imports
 import os
-from flask import Flask, request, session, g, redirect, url_for, abort, flash, make_response
+from flask import Flask, request, session, g, redirect, url_for, abort, flash, make_response, send_from_directory
 from flask import render_template as flask_render_template
 from black_star.sys.db import db_session
 from black_star.sys.makepass import gen_passwd
@@ -13,7 +13,6 @@ from black_star import config
 
 app = Flask(__name__)
 app.config.from_object(config)
-app.config.from_envvar('BLACK_STAR_SETTINGS', silent=True)
 
 @app.before_request
 def create_session_identifier():

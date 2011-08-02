@@ -31,8 +31,6 @@ def delete_file(file_indicator=None):
 @app.route('/<file_indicator>', methods = ['GET', 'POST'])
 def file_serve(file_indicator = None):
   if file_indicator is None: return homepage()
-  if isinstance(file_indicator, (str, unicode)) and file_indicator.lower() in ['favicon.ico', 'robots.txt']:
-    abort(404)
   
   ufile = _get_ufile(file_indicator)
   preview = _get_preview(ufile)

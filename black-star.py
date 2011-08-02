@@ -2,8 +2,17 @@
 # -*- coding: utf-8 -*-
 
 # all the imports
-from black_star import app
+from black_star import app, url_for, send_from_directory
 from black_star import config
+import os
+
+@app.route('/favicon.ico')
+def favicon_ico():
+  return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
+
+@app.route('/robots.txt')
+def robot_txt():
+  return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
 
 from black_star.sys import errorpages
 from black_star.sys import homepage
