@@ -1,0 +1,93 @@
+{% extends "_base.html" %}
+{% block content %}
+<div id="content"><form action="{{ url_for('edit_file', file_indicator=file_indicator) }}" method="post">
+  <div id="file-preview">
+  {% if preview == 'icon' %}
+    <!-- File ICON -->
+    <div class="file-icon"><div id="file-ext">{{ fileext }}</div></div>
+  {% endif %}
+  {% if preview == 'image' %}  
+    <!-- Pic -->
+    <div class="file-pic">
+      <img src="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" alt="{{ ufile.name }}" class="file-img" />
+      <input type="hidden" id="fp-max-width" value="{{ config.UFILE_PIC_MAX_WIDTH }}" />
+      <input type="hidden" id="fp-max-height" value="{{ config.UFILE_PIC_MAX_HEIGHT }}" />
+    </div>
+  {% endif %}
+  {% if preview == 'text' %}
+    <!-- text -->
+    <div class="file-text">
+    </div>
+  {% endif %}
+  </div>
+
+  {% with flash_messages = get_flashed_messages() %}
+    {% if flash_messages %}
+    <ul class="flash_messages">
+      {% for flash_message in flash_messages %}<li>{{ flash_message }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+	
+  <fieldset class="login-form" id='login-form'><label for="login-form" class="fld_label">Edit this file</label>
+    <ul class="form_line">
+      <li class="form_cap">Title</li>
+      <li class="form_input"><input class="form_text" type="text" name="name" value="{{ ufile.name }}" /></li>
+      <li class="form_desc">Title of this file (required).</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">URL</li>
+      <li class="form_input">{{ config.URL_ROOT }}/<input class="form_text form_text_url" type="text" id="ufile_url" name="url" value="{{ ufile.url }}" /><button type="button" id="rand_url" class="form_btn" rel="{{ url_for("rand_link") }}">RAND</button></li>
+      <li class="form_desc">URL of this file (required).</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Filename</li>
+      <li class="form_input"><input class="form_text form_text_readonly" type="text" name="filename" value="{{ ufile.filename }}" readonly="readonly" /></li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Password</li>
+      <li class="form_input"><input class="form_text" type="password" name="password" value="{{ ufile.password }}" /></li>
+      <li class="form_desc">Protect your file with a password. Leave it blank if your file is public.</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Description</li>
+      <li class="form_input"><textarea name="description" class="form_textarea">{{ ufile.description }}</textarea></li>
+      <li class="form_desc">A short description of your file. Markdown enabled.</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Direct Access</li>
+      <li class="form_input"><input type="radio" name="linkable" value="yes"{% if ufile.linkable %} checked="checked"{% endif %} />Allow <input type="radio" name="linkable" value="no"{% if not ufile.linkable %} checked="checked"{% endif %} />Disallow </li>
+      <li class="form_desc">Allow/Disallow the direct access of your file.</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Download</li>
+      <li class="form_input"><input type="radio" name="download" value="yes"{% if ufile.download %} checked="checked"{% endif %} />Allow <input type="radio" name="download" value="no"{% if not ufile.download %} checked="checked"{% endif %} />Disallow </li>
+      <li class="form_desc">Allow/Disallow user to download your file.</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
+      <li class="form_cap">Show on Homepage</li>
+      <li class="form_input"><input type="radio" name="homeshow" value="yes"{% if ufile.homeshow %} checked="checked"{% endif %} />Allow <input type="radio" name="homeshow" value="no"{% if not ufile.homeshow %} checked="checked"{% endif %} />Disallow </li>
+      <li class="form_desc">Allow/Disallow to show your file on recent uploads.</li>
+      <li class="form_clear"></li>
+    </ul>
+
+  </fieldset>
+	
+
+  <div id="btn-ct">
+    <input type="hidden" name="file_id" value="{{ ufile.id }}" />
+      <button type="submit" class="btn">Update</button>
+      <button type="reset" class="btn">Reset</button>
+      <a href="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View / Download</button></a>
+  </div>
+</form></div>
+{% endblock %}
+{% block pageend %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "_base.html" %}
+{% block page_head %}
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e37eec501b2d61d"></script>
+{% endblock %}
+{% block content %}
+<div id="content"><form action="{{ url_for('file_serve', file_indicator=file_indicator) }}" method="post">
+  <div id="file-preview">
+  {% if preview == 'icon' %}
+    <!-- File ICON -->
+    <div class="file-icon"><div id="file-ext">{{ fileext }}</div></div>
+  {% endif %}
+  {% if preview == 'image' %}  
+    <!-- Pic -->
+    <div class="file-pic">
+      <img src="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" alt="{{ ufile.name }}" class="file-img" />
+      <input type="hidden" id="fp-max-width" value="{{ config.UFILE_PIC_MAX_WIDTH }}" />
+      <input type="hidden" id="fp-max-height" value="{{ config.UFILE_PIC_MAX_HEIGHT }}" />
+    </div>
+  {% endif %}
+  {% if preview == 'text' %}
+    <!-- text -->
+    <div class="file-text">
+    </div>
+  {% endif %}
+  </div>
+	
+	<h1 class="title">{{ ufile.name }}</h1>
+	{% if not ufile.password %}<h2 class="filename">{{ ufile.filename }}</h2>{% endif %}
+  
+  {% if ufile.password %}
+  <fieldset class="password-protect" id='password-protect'><label for="password-protect" class="fld_label">Password</label>
+    Enter the password to unlock: <input type="password" name="p-word" id="p-word" value="" placeholder="Enter your password here." />
+  </fieldset>
+  {% endif %}
+  
+  <fieldset class="share-list" id='share-list'><label for="share-list" class="fld_label">Share</label>
+  <div id="share-opt">
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+    <a class="addthis_button_preferred_1"></a>
+    <a class="addthis_button_preferred_2"></a>
+    <a class="addthis_button_preferred_3"></a>
+    <a class="addthis_button_preferred_4"></a>
+    <a class="addthis_button_preferred_5"></a>
+    <a class="addthis_button_preferred_6"></a>
+    <a class="addthis_button_preferred_7"></a>
+    <a class="addthis_button_preferred_8"></a>
+    <a class="addthis_button_preferred_9"></a>
+    <a class="addthis_button_preferred_10"></a>
+    <a class="addthis_button_compact"></a>
+    <a class="addthis_counter addthis_bubble_style"></a>
+    </div>
+    <!-- AddThis Button END -->
+  </div>
+  </fieldset>
+  
+  
+  {% if not ufile.password and ufile.description %}
+  <fieldset class="description" id='description'><label for="description" class="fld_label">Description</label>
+  {{ ufile.description|markdown }}
+  </fieldset>
+  {% endif %}
+  
+  {% if not ufile.password and ufile.linkable %}
+  <fieldset class="direct-link" id='direct-link'><label for="direct-link" class="fld_label">Direct Link</label>
+    <input type="text" name="d-link" id="d-link" value="{{ url_for('direct_file', file_id=ufile.id, filename=ufile.filename, _external=True) }}" readonly="readonly" />
+  </fieldset>
+  {% endif %}
+  
+  <div id="btn-ct">
+    {% if ufile.password %}
+    <button type="submit" class="btn">Unlock</button>
+    {% else %}
+      {% if fileext in config.VIEWABLE_EXTS %}
+      <a href="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View</button></a>
+      {% endif %}
+      {% if ufile.download %}
+      <a href="{{ url_for('static_file', filename=ufile.filename, download='yes', key=visitkey) }}" class="btn-a"><button type="button" class="btn">Download</button></a>
+      {% endif %}
+    {% endif %}
+  </div>
+</form></div>
+{% endblock %}
+{% block pageend %}
+{% endblock %}

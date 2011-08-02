@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>{% if title %}{{ title }} - {% endif %}{{ config.SITE_NAME }}</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" media="all" />
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js.js') }}"></script>
+{% block page_head %}{% endblock %}
+</head>
+<body>
+<!-- Header Start -->
+<div id="header">
+  <a href="{{ config.URL_ROOT }}" id="logo" title="{{ config.SITE_NAME }}">{{ config.SITE_NAME }}</a>
+  <div id="adminbar">
+  {% if is_admin_login %}
+    {% if edit_page %}
+    <a href="{{ url_for('edit_file', file_indicator=file_indicator) }}">Edit</a>
+    |
+    <a href="{{ url_for('delete_file',file_indicator=file_indicator) }}" class="del-file-link">Delete</a>
+    |
+    {% endif %}
+    <a href="#admin">Admin</a>
+    |
+    <a href="{{ url_for('logout_page', next=request.url) }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login_page', next=request.url) }}">Login</a>
+  {% endif %}
+  </div>
+</div>
+<!-- Content Start -->
+{% block content %}{% endblock %}
+<!-- Content End -->
+<!-- Footer Start -->
+<div id="footer"><div id="inner-footer">
+	<a href="http://yangliu.name" id="liuyang-logo" title="A Yang Liu Production">Yang Liu</a>
+	<a href="https://liuy.me/black-star" id="black-star-logo" title="Powered by BlackStar">Black Star</a>
+</div></div>
+<!-- Footer End -->
+{% block pageend %}{% endblock %}
+</body>
+</html>
