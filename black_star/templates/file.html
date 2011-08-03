@@ -1,6 +1,5 @@
 {% extends "_base.html" %}
 {% block page_head %}
-<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e37eec501b2d61d"></script>
 {% endblock %}
 {% block content %}
 <div id="content"><form action="{{ url_for('file_serve', file_indicator=file_indicator) }}" method="post">
@@ -32,6 +31,12 @@
     Enter the password to unlock: <input type="password" name="p-word" id="p-word" value="" placeholder="Enter your password here." />
   </fieldset>
   {% endif %}
+    
+  {% if not ufile.password and ufile.description %}
+  <fieldset class="description" id='description'><label for="description" class="fld_label">Description</label>
+  {{ ufile.description|markdown }}
+  </fieldset>
+  {% endif %}
   
   <fieldset class="share-list" id='share-list'><label for="share-list" class="fld_label">Share</label>
   <div id="share-opt">
@@ -54,13 +59,6 @@
   </div>
   </fieldset>
   
-  
-  {% if not ufile.password and ufile.description %}
-  <fieldset class="description" id='description'><label for="description" class="fld_label">Description</label>
-  {{ ufile.description|markdown }}
-  </fieldset>
-  {% endif %}
-  
   {% if not ufile.password and ufile.linkable %}
   <fieldset class="direct-link" id='direct-link'><label for="direct-link" class="fld_label">Direct Link</label>
     <input type="text" name="d-link" id="d-link" value="{{ url_for('direct_file', file_id=ufile.id, filename=ufile.filename, _external=True) }}" readonly="readonly" />
@@ -82,4 +80,11 @@
 </form></div>
 {% endblock %}
 {% block pageend %}
+<script type="text/javascript">
+  (function() {
+    var addthis = document.createElement('script'); addthis.type = 'text/javascript'; addthis.async = true;
+    addthis.src = "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e37eec501b2d61d";
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(addthis, s);
+  })();
+</script>
 {% endblock %}
