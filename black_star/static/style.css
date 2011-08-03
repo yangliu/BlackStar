@@ -294,7 +294,7 @@ a.goto-recent-files:hover {
   position: absolute;
   top: -6px;
   left: 50%;
-  margin-left: -40px;
+  margin-left: -50px;
   font-weight: bold;
   text-align: center;
   line-height: 1;
