@@ -14,6 +14,7 @@ def favicon_ico():
 def robot_txt():
   return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
 
+
 from black_star.sys import errorpages
 from black_star.sys import homepage
 from black_star.sys import listpage

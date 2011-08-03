@@ -24,8 +24,13 @@ def delete_file(file_indicator=None):
   ufile = UFile.query.filter(UFile.url == file_indicator).first()
   if not ufile: abort(404)
   
+  fn = funcs.fullname(ufile.filename)
   db_session.delete(ufile)
   db_session.commit()
+  try:
+    os.remove(fn)
+  except:
+    pass
   return redirect(url_for('file_serve',file_indicator=file_indicator))
 
 @app.route('/<file_indicator>', methods = ['GET', 'POST'])
