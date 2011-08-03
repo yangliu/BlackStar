@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.min.css') }}" media="all" />
 	<script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js.min.js') }}"></script>
+{% include 'ga-head.html' ignore missing %}
 {% block page_head %}{% endblock %}
 </head>
 <body>
@@ -38,5 +39,6 @@
 </div></div>
 <!-- Footer End -->
 {% block pageend %}{% endblock %}
+{% include 'ga-foot.html' ignore missing %}
 </body>
 </html>
