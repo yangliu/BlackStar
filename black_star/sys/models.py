@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+DB_MODELS_VERSION = 1001
 from sqlalchemy import Column, BigInteger, Integer, Boolean, String, Text, DateTime, PickleType, ForeignKey
 from black_star.sys.db import dbModel
 
@@ -19,8 +20,9 @@ class UFile(dbModel):
   linkable      = Column(Boolean(create_constraint=False))
   password      = Column(String(200))
   homeshow      = Column(Boolean)
+  expire_at     = Column(DateTime)
   
-  def __init__(self, name=None, url=None, description=None, created=None, filename=None, filesize=0, mimetype=None, download=True, linkable=False, password=None, homeshow=True):
+  def __init__(self, name=None, url=None, description=None, created=None, filename=None, filesize=0, mimetype=None, download=True, linkable=False, password=None, homeshow=True, expire_at=None):
   
     self.name = name 
     self.url = url
@@ -33,6 +35,7 @@ class UFile(dbModel):
     self.linkable = linkable
     self.password = password
     self.homeshow = homeshow
+    self.expire_at = expire_at
     
     
   def __repr__(self):
