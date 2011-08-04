@@ -23,27 +23,35 @@
 	  });
 	  $(window).resize();
 	  
-	  $('.file-img').load(function(){
+	  var resize_pic = function(which){
 	    var max_width = $('#fp-max-width').val();
 	    var max_height = $('#fp-max-height').val();
 	    var ratio = 0;
-	    var width = $(this).width();
-	    var height = $(this).height();
-	    
+	    var width = $(which).width();
+	    var height = $(which).height();
+	    if (width == 0 && height == 0) {
+	      // read pic from cache
+	      $(window).load(function(){resize_pic('.file-img');})
+	      return false;
+	    }
 	    if (max_width > 0 && width > max_width) {
 	      ratio = max_width/width;
-	      $(this).css('width', max_width);
+	      $(which).css('width', max_width);
 	      height = height * ratio;
-	      $(this).css('height', height);
+	      $(which).css('height', height);
 	    }
 	    if (max_height > 0 && height > max_height) {
 	      ratio = max_height/height;
-	      $(this).css('height', max_height);
+	      $(which).css('height', max_height);
 	      width = width * ratio;
-	      $(this).css('width', width);
+	      $(which).css('width', width);
 	    }
-	    $(this).fadeIn();
+	    $(which).fadeIn();
+	  }
+	  $('.file-img').load(function(){
+	    resize_pic(this)
 	  });
+	  
 	  
 	  $('#rand_url').click(function(){
 	    $.ajax({
