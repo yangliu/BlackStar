@@ -11,7 +11,7 @@
   {% if preview == 'image' %}  
     <!-- Pic -->
     <div class="file-pic">
-      <img src="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" alt="{{ ufile.name }}" class="file-img" />
+      <img src="{{ url_for('static_file', filename=ufile.filename) }}" alt="{{ ufile.name }}" class="file-img" />
       <input type="hidden" id="fp-max-width" value="{{ config.UFILE_PIC_MAX_WIDTH }}" />
       <input type="hidden" id="fp-max-height" value="{{ config.UFILE_PIC_MAX_HEIGHT }}" />
     </div>

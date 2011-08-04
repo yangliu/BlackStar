@@ -14,23 +14,26 @@ from datetime import datetime, tzinfo
 def static_file(filename = None):
   if not funcs.f_exists(filename): abort(404)
   
+  is_download = request.args.get('download')
+  if is_download == 'yes':
+    as_attachment = True
+  else:
+    as_attachment = False
+  
+  # reference
+  if not as_attachment and request.referrer.startswith(config.URL_ROOT):
+    self_ref = True
+  else:
+    self_ref = False
+    
   key = request.args.get('key')
   v_key = request.cookies.get(sf_cookie_name(filename))
-  if key and v_key and v_key == sf_cookie_val(filename, key):
+  if self_ref or (key and v_key and v_key == sf_cookie_val(filename, key)):
     pass
   else:
     abort(403)
   
-  is_download = request.args.get('download')
-  if is_download == 'yes':
-    #mimetype = 'application/octet-stream'
-    mimetype = None
-    as_attachment = True
-  else:
-    mimetype = None
-    as_attachment = False
-  
-  return send_from_directory(os.path.normpath(os.path.join(config.ROOT_PATH, config.UPLOAD_FILE_PATH)), filename, mimetype=mimetype, as_attachment=as_attachment)
+  return send_from_directory(os.path.normpath(os.path.join(config.ROOT_PATH, config.UPLOAD_FILE_PATH)), filename, as_attachment=as_attachment)
 
 @app.route('/f<int:file_id>/<filename>')
 def direct_file(file_id, filename):
