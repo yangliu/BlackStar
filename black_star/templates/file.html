@@ -19,6 +19,7 @@
   {% if preview == 'text' %}
     <!-- text -->
     <div class="file-text">
+    {{ ufile.file_content|safe }}
     </div>
   {% endif %}
   </div>

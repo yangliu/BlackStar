@@ -7,6 +7,7 @@ from black_star.sys.db import db_session
 from black_star.sys.models import UFile
 from black_star.sys import funcs
 from black_star.sys.makepass import gen_passwd, enc_passwd, sf_cookie_name, sf_cookie_val
+from black_star.chardet.universaldetector import UniversalDetector
 from black_star import config
 from datetime import datetime 
 from hashlib import sha1
@@ -167,6 +168,24 @@ def _get_preview(ufile):
     preview = 'image'
   elif ufile.mimetype in ['text/plain']:
     preview = 'text'
+    enc_detector = UniversalDetector()
+    file_lines = []
+    try:
+      with open(funcs.fullname(ufile.filename), 'r') as f:
+        for line in f:
+          file_lines.append(line)
+          if not enc_detector.done:
+            enc_detector.feed(line)
+      enc_detector.close()
+      def unicodefy(s):
+        return unicode(s, enc_detector.result.get('encoding'), errors='ignore')
+      file_lines = map(unicodefy, file_lines)
+      ufile.file_content = '<p>%s</p>' % '</p><p>'.join(file_lines)
+    except:
+      ufile.file_content = 'failed to open file'
+      
+    
+    
   else:
     preview = 'icon'
   return preview
