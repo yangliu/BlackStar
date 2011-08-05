@@ -69,6 +69,20 @@
 	  $('.del-file-link').click(function(){
 	    return confirm('Are you sure to delete this file?');
 	  });
+	  
+	  $('#edit_expire').click(function(){
+	    $('#expire_delta').val('24');
+	    $('#ufile_expire_at').hide();
+	    $('#ufile_expire_at_modi').show();
+	  });
+	  $('#edit_expire_cancel').click(function(){
+	    $('#expire_delta').val('-1');
+	    $('#ufile_expire_at_modi').hide();
+	    $('#ufile_expire_at').show();
+	  });
+	  $('#expire_opts').change(function(){
+	    $('#expire_delta').val($(this).val());
+	  });
 	});
 	$(window).load(function(){
 	  $(window).resize();

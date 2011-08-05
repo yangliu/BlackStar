@@ -61,6 +61,60 @@
       <li class="form_clear"></li>
     </ul>
     <ul class="form_line">
+      <li class="form_cap">Expires</li>
+      <li class="form_input">
+        <div id="ufile_expire_at">
+        {% if not ufile.expire_at %}
+          Never
+        {% else %}
+          {{ ufile.expire_at.strftime("%Y-%m-%d %H:%I") }}
+        {% endif %}
+        <button type="button" id="edit_expire" class="form_btn" rel="">EDIT</button>
+        </div>
+        <div id="ufile_expire_at_modi" style="display: none">
+          <select id="expire_opts">
+            <optgroup label="Never"><option value="0">Never</option></optgroup>
+            <optgroup label="Hours">
+              <option value="1">1 hour</option>
+              <option value="2">2 hours</option>
+              <option value="3">3 hours</option>
+              <option value="4">4 hours</option>
+              <option value="5">5 hours</option>
+              <option value="6">6 hours</option>
+              <option value="12">12 hours</option>
+              <option value="18">18 hours</option>
+            </optgroup>
+            <optgroup label="Days">
+              <option value="24" selected="selected">1 day</option>
+              <option value="48">2 days</option>
+              <option value="72">3 days</option>
+              <option value="96">4 days</option>
+              <option value="120">5 days</option>
+              <option value="144">6 days</option>
+            </optgroup>
+            <optgroup label="Weeks">
+              <option value="168">1 week</option>
+              <option value="336">2 weeks</option>
+              <option value="504">3 weeks</option>
+            </optgroup>
+            <optgroup label="Months">
+              <option value="672">1 month</option>
+              <option value="1344">2 months</option>
+              <option value="2016">3 months</option>
+              <option value="2688">4 months</option>
+              <option value="4032">6 months</option>
+              <option value="5376">8 months</option>
+              <option value="8064">12 months</option>
+            </optgroup>           
+          </select><br />
+          <input type="text" name="expire_delta" id="expire_delta" class="form_text form_text_hours" value="-1" /> hour(s) from now on
+          <button type="button" id="edit_expire_cancel" class="form_btn" rel="">CANCEL</button>
+        </div>
+      </li>
+      <li class="form_desc">Restrict a time span for file sharing</li>
+      <li class="form_clear"></li>
+    </ul>
+    <ul class="form_line">
       <li class="form_cap">Direct Access</li>
       <li class="form_input"><input type="radio" name="linkable" value="yes"{% if ufile.linkable %} checked="checked"{% endif %} />Allow <input type="radio" name="linkable" value="no"{% if not ufile.linkable %} checked="checked"{% endif %} />Disallow </li>
       <li class="form_desc">Allow/Disallow the direct access of your file.</li>

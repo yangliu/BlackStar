@@ -8,7 +8,7 @@ from black_star.sys import funcs
 from black_star.sys.makepass import sf_cookie_name, sf_cookie_val
 from black_star.sys.models import UFile
 import os, stat
-from datetime import datetime, tzinfo
+from datetime import datetime, tzinfo, timedelta
 
 @app.route('/file/<filename>')
 def static_file(filename = None):
@@ -40,6 +40,8 @@ def direct_file(file_id, filename):
   ufile = UFile.query.filter(UFile.id == file_id).first()
   if not ufile: abort(404)
   if not ufile.linkable: abort(403)
+  if isinstance(ufile.expire_at, datetime) and datetime.now()>ufile.expire_at:
+    abort(403)
   
   if not funcs.f_exists(ufile.filename): abort(404)
   return send_from_directory(os.path.normpath(os.path.join(config.ROOT_PATH, config.UPLOAD_FILE_PATH)), filename)

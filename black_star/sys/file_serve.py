@@ -9,7 +9,7 @@ from black_star.sys import funcs
 from black_star.sys.makepass import gen_passwd, enc_passwd, sf_cookie_name, sf_cookie_val
 from black_star.chardet.universaldetector import UniversalDetector
 from black_star import config
-from datetime import datetime 
+from datetime import datetime, timedelta
 from hashlib import sha1
 import os
 import logging
@@ -51,13 +51,22 @@ def file_serve(file_indicator = None):
     preview = 'icon'
     fileext = 'secret'
   
+  # is_expired
+  if isinstance(ufile.expire_at, datetime):
+    ufile.is_expired = ufile.expire_at < datetime.now()
+  else:
+    ufile.is_expired = False
+  
   visitkey = gen_passwd()
   
   page_title = ufile.name
   
   response = make_response(render_template('file.html', ufile=ufile, preview = preview, fileext = fileext, file_indicator = file_indicator, visitkey=visitkey, edit_page = True, title=page_title))
-  if not ufile.password:
+  if not ufile.password and not ufile.is_expired:
     response.set_cookie(sf_cookie_name(ufile.filename), sf_cookie_val(ufile.filename, visitkey))
+  else:
+    response.set_cookie(sf_cookie_name(ufile.filename), "")
+  
   return response  
 
 @app.route('/edit/<file_indicator>', methods = ['GET', 'POST'])
@@ -99,6 +108,18 @@ def edit_file(file_indicator = None):
     
     ufile.description = request.form.get('description').strip()
     if not ufile.description: ufile.description = None
+    
+    try:
+      expire_delta = int(request.form.get('expire_delta'))
+    except:
+      expire_delta = -1
+    if expire_delta == -1:
+      pass
+    else:
+      if expire_delta == 0:
+        ufile.expire_at = None
+      else:
+        ufile.expire_at = datetime.now()+timedelta(hours=expire_delta)
     
     for item in ['linkable', 'download', 'homeshow']:
       if request.form.get(item) == 'yes':

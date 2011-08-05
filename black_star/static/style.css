@@ -468,6 +468,7 @@ a.goto-recent-files:hover {
 .form_text:focus { border-bottom-color: blue; }
 .form_text_readonly { border: none!important; }
 .form_text_url {width: 150px; margin-left: 1px;}
+.form_text_hours {width: 40px; margin-left: 1px; text-align: right;}
 .form_textarea { border: 1px solid #000; outline: none; padding: 5px; width: 300px; height: 80px; font-size: 12px; color: black; resize: vertical; border-radius: 3px;}
 .form_textarea:focus { border-color: blue; }
 .form_btn {
