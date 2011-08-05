@@ -40,7 +40,7 @@ def direct_file(file_id, filename):
   ufile = UFile.query.filter(UFile.id == file_id).first()
   if not ufile: abort(404)
   if not ufile.linkable: abort(403)
-  if isinstance(ufile.expire_at, datetime) and datetime.now()>ufile.expire_at:
+  if isinstance(ufile.expire_at, datetime) and datetime.utcnow()>ufile.expire_at:
     abort(403)
   
   if not funcs.f_exists(ufile.filename): abort(404)

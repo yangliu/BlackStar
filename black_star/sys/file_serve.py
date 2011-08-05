@@ -53,7 +53,7 @@ def file_serve(file_indicator = None):
   
   # is_expired
   if isinstance(ufile.expire_at, datetime):
-    ufile.is_expired = ufile.expire_at < datetime.now()
+    ufile.is_expired = ufile.expire_at < datetime.utcnow()
   else:
     ufile.is_expired = False
   
@@ -119,7 +119,7 @@ def edit_file(file_indicator = None):
       if expire_delta == 0:
         ufile.expire_at = None
       else:
-        ufile.expire_at = datetime.now()+timedelta(hours=expire_delta)
+        ufile.expire_at = datetime.utcnow()+timedelta(hours=expire_delta)
     
     for item in ['linkable', 'download', 'homeshow']:
       if request.form.get(item) == 'yes':
