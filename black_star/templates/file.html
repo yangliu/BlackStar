@@ -11,7 +11,7 @@
   {% if preview == 'image' %}  
     <!-- Pic -->
     <div class="file-pic">
-      <img src="{{ url_for('static_file', filename=ufile.filename) }}" alt="{{ ufile.name }}" class="file-img" />
+      <img src="{{ url_for('static_file', file_id=ufile.id, filename=ufile.beautiful_filename) }}" alt="{{ ufile.name }}" class="file-img" />
       <input type="hidden" id="fp-max-width" value="{{ config.UFILE_PIC_MAX_WIDTH }}" />
       <input type="hidden" id="fp-max-height" value="{{ config.UFILE_PIC_MAX_HEIGHT }}" />
     </div>
@@ -77,10 +77,10 @@
     <button type="submit" class="btn">Unlock</button>
     {% else %}
       {% if fileext in config.VIEWABLE_EXTS %}
-      <a href="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View</button></a>
+      <a href="{{ url_for('static_file', file_id=ufile.id, filename=ufile.beautiful_filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View</button></a>
       {% endif %}
       {% if ufile.download %}
-      <a href="{{ url_for('static_file', filename=ufile.filename, download='yes', key=visitkey) }}" class="btn-a"><button type="button" class="btn">Download</button></a>
+      <a href="{{ url_for('static_file', file_id=ufile.id, filename=ufile.beautiful_filename, download='yes', key=visitkey) }}" class="btn-a"><button type="button" class="btn">Download</button></a>
       {% endif %}
     {% endif %}
   </div>

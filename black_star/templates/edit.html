@@ -9,7 +9,7 @@
   {% if preview == 'image' %}  
     <!-- Pic -->
     <div class="file-pic">
-      <img src="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" alt="{{ ufile.name }}" class="file-img" />
+      <img src="{{ url_for('static_file', file_id=ufile.id, filename=ufile.filename, key=visitkey) }}" alt="{{ ufile.name }}" class="file-img" />
       <input type="hidden" id="fp-max-width" value="{{ config.UFILE_PIC_MAX_WIDTH }}" />
       <input type="hidden" id="fp-max-height" value="{{ config.UFILE_PIC_MAX_HEIGHT }}" />
     </div>
@@ -140,7 +140,7 @@
     <input type="hidden" name="file_id" value="{{ ufile.id }}" />
       <button type="submit" class="btn">Update</button>
       <button type="reset" class="btn">Reset</button>
-      <a href="{{ url_for('static_file', filename=ufile.filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View / Download</button></a>
+      <a href="{{ url_for('static_file', file_id=ufile.id, filename=ufile.filename, key=visitkey) }}" class="btn-a"><button type="button" class="btn">View / Download</button></a>
   </div>
 </form></div>
 {% endblock %}

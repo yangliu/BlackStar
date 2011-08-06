@@ -61,6 +61,13 @@ def file_serve(file_indicator = None):
   
   page_title = ufile.name
   
+  #beautiful filename
+  pos = ufile.filename.rfind('.')
+  if pos != -1:
+    ufile.beautiful_filename = "%s%s" % (ufile.name, ufile.filename[pos:])
+  else:
+    ufile.beautiful_filename = ufile.name
+  
   response = make_response(render_template('file.html', ufile=ufile, preview = preview, fileext = fileext, file_indicator = file_indicator, visitkey=visitkey, edit_page = True, title=page_title))
   if not ufile.password and not ufile.is_expired:
     response.set_cookie(sf_cookie_name(ufile.filename), sf_cookie_val(ufile.filename, visitkey))
