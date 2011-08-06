@@ -93,7 +93,7 @@ def edit_file(file_indicator = None):
     else:
       ufile.name = name
     
-    url = re.sub('[^%a-zA-Z0-9_\-]', '', request.form.get('url')).strip('-')
+    url = re.sub('[^%a-zA-Z0-9_\-\.]', '', request.form.get('url')).strip('-')
     if not url:
       err = True
       flash('URL is empty or contains illegal characters.')

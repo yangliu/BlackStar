@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+{% block page_head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plupload/jquery.plupload.queue/css/jquery.plupload.queue.css') }}" media="all" />
+<script type="text/javascript" src="{{ url_for('static', filename='plupload/plupload.full.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plupload/jquery.plupload.queue/jquery.plupload.queue.js') }}"></script>
+<script type="text/javascript">
+// Convert divs to queue widgets when the DOM is ready
+$(function() {
+    $("#uploader").pluploadQueue({
+        runtimes : 'html5, flash',
+        url : "{{ url_for('upload_file_receiver') }}",
+        chunk_size : '1mb',
+        max_file_size : '100mb',
+        multipart: true,
+        multipart_params: { randkey: '{{ randkey }}' },
+        // Specify what files to browse for
+        filters : [],
+        flash_swf_url : "{{ url_for('static', filename='plupload/plupload.flash.swf') }}",
+    });
+    // Client side form validation
+    $('form').submit(function(e) {
+        var uploader = $('#uploader').pluploadQueue();
+        // Validate number of uploaded files
+        if (uploader.total.uploaded == 0) {
+            // Files in queue upload them first
+            if (uploader.files.length > 0) {
+                // When all files are uploaded submit form
+                uploader.bind('FileUploaded', function() {
+                    if (uploader.total.uploaded == uploader.files.length) {
+                      //console.log(uploader.total.uploaded)
+                      $('#file_num').val(uploader.total.uploaded);
+                      $('form').submit();
+                    }
+                });
+                uploader.start();
+            } else
+                alert('You must at least upload one file.');
+            e.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}
+{% block content %}
+<div id="content"><form action="{{ url_for('upload_page') }}" method="post">
+<fieldset id="uploader-ct" class="share-list"><label for="uploader-ct" class="fld_label">Upload Files</label>
+<div id="uploader"></div></fieldset>
+<div id="upload-btn-div">
+  <input type="hidden" name="file_num" value="0" id="file_num" />
+  <input type="hidden" name="groupkey" value="{{ randkey }}" />
+  <button type="submit" class="btn">Start Upload</button>
+</div>
+</form></div>
+{% endblock %}

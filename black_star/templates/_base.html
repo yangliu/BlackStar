@@ -21,7 +21,7 @@
     <a href="{{ url_for('delete_file',file_indicator=file_indicator) }}" class="del-file-link">Delete</a>
     |
     {% endif %}
-    <a href="#admin">Admin</a>
+    <a href="{{ url_for('upload_page') }}">Upload</a>
     |
     <a href="{{ url_for('logout_page', next=request.url) }}">Logout</a>
   {% else %}

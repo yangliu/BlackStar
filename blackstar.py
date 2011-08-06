@@ -21,6 +21,7 @@ from black_star.sys import listpage
 from black_star.sys import login_page
 from black_star.sys import file_serve
 from black_star.sys import http_file
+from black_star.sys import upload
 
 
 if __name__ == '__main__':
