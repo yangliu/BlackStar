@@ -8,7 +8,7 @@
         <a href="{{ url_for('file_serve', file_indicator=file.url) }}" class="f_name">{{ file.name }}</a>
         {% if not file.homeshow %}&lt;H&gt;{% endif %}
         <div class="f_info">
-          <span class="f_ext_size">[<span class="f_ext">{{ file.filename|file_ext }}</span> / <span class="f_size">{{ file.filesize|filesizeformat }}</span>]</span>
+          <span class="f_ext_size">[<span class="f_ext">{{ file.filename|file_ext }}</span> / <span class="f_size">{{ file.filesize|bs_filesize }}</span>]</span>
           - <span class="f_date">[{{ file.created.strftime('%Y-%m-%d') }}]</span>
         </div>
       </li>
