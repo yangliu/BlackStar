@@ -16,6 +16,10 @@ import re
 from hashlib import sha1
 import glob
 import shutil
+try:
+  from shutil import make_archive
+except:
+  from distutils.archive_util import make_archive
 
 @app.route('/upload/', methods=['GET', 'POST'])
 def upload_page():
@@ -63,7 +67,7 @@ def upload_page():
         new_o_fn = os.path.join(newdir, o_fn)
         shutil.copy(f, new_o_fn)
         os.remove(f)
-      shutil.make_archive(dst_fn[:dst_fn.rfind('.')], o_f_type, newdir)
+      make_archive(dst_fn[:dst_fn.rfind('.')], o_f_type, newdir)
       shutil.rmtree(newdir, True)
       
       d_fn2 = gen_file_item(dst_fn, '[Archive]%s'%datetime.utcnow().strftime('%Y-%m-%d %H:%I'))
