@@ -9,7 +9,6 @@ from black_star.sys.makepass import sf_cookie_name, sf_cookie_val
 from black_star.sys.models import UFile
 import os, stat
 from datetime import datetime, tzinfo, timedelta
-import urllib
 
 @app.route('/file<int:file_id>/<filename>')
 def static_file(file_id=None, filename = None):
